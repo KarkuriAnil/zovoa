@@ -13,6 +13,7 @@ import Contact from "./pages/Contact";
 import Portfolio from "./pages/Portfolio";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 import MVP from "./pages/MVP";
 import Websites from "./pages/Websites";
 import ThreeDBrands from "./pages/3DBrands";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/mvp" element={<MVP />} />
           <Route path="/websites" element={<Websites />} />
           <Route path="/3d-brands" element={<ThreeDBrands />} />

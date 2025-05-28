@@ -9,12 +9,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Rocket, Eye, EyeOff, LogIn, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+interface LoginErrors {
+  email?: string;
+  password?: string;
+}
+
 const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<LoginErrors>({});
   
   const [formData, setFormData] = useState({
     email: '',
@@ -23,7 +28,7 @@ const Login = () => {
   });
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: LoginErrors = {};
 
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -47,7 +52,7 @@ const Login = () => {
     });
 
     // Clear specific error when user starts typing
-    if (errors[name]) {
+    if (errors[name as keyof LoginErrors]) {
       setErrors({
         ...errors,
         [name]: ''

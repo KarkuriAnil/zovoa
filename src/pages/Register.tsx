@@ -10,13 +10,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Rocket, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
+interface RegisterErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  role?: string;
+  agreeToTerms?: string;
+}
+
 const Register = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<RegisterErrors>({});
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -31,7 +41,7 @@ const Register = () => {
   });
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: RegisterErrors = {};
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
@@ -79,7 +89,7 @@ const Register = () => {
     });
 
     // Clear specific error when user starts typing
-    if (errors[name]) {
+    if (errors[name as keyof RegisterErrors]) {
       setErrors({
         ...errors,
         [name]: ''
@@ -94,7 +104,7 @@ const Register = () => {
     });
 
     // Clear error for this field
-    if (errors[name]) {
+    if (errors[name as keyof RegisterErrors]) {
       setErrors({
         ...errors,
         [name]: ''

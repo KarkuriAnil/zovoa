@@ -1,14 +1,27 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Rocket, User, Settings } from 'lucide-react';
+import { Menu, X, Rocket, User, Settings, LogOut, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Mock authentication state - this would come from auth context
-  const isAuthenticated = false; // Change to true to see authenticated state
+  const isAuthenticated = true; // Change to true to see authenticated state
+  const user = { name: "John Doe", email: "john@example.com" };
+
+  const handleLogout = () => {
+    console.log("Logout clicked");
+    // Handle logout logic here
+  };
 
   return (
     <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
@@ -40,7 +53,7 @@ const Navbar = () => {
             </Link>
             {isAuthenticated && (
               <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 transition-colors">
-                Dashboard
+                My Projects
               </Link>
             )}
           </div>
@@ -48,18 +61,39 @@ const Navbar = () => {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (
-              <>
-                <Link to="/dashboard">
-                  <Button variant="ghost" className="text-gray-700 hover:text-blue-600">
-                    <User className="h-4 w-4 mr-2" />
-                    Dashboard
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-2">
+                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                      <User className="h-4 w-4 text-white" />
+                    </div>
+                    <span className="text-gray-700">{user.name}</span>
+                    <ChevronDown className="h-4 w-4 text-gray-500" />
                   </Button>
-                </Link>
-                <Button variant="ghost" className="text-gray-700 hover:text-blue-600">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-              </>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium">{user.name}</p>
+                    <p className="text-xs text-gray-500">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="flex items-center">
+                      <User className="h-4 w-4 mr-2" />
+                      My Projects
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="h-4 w-4 mr-2" />
+                    Account Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <Link to="/login">
@@ -126,21 +160,29 @@ const Navbar = () => {
                   className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Dashboard
+                  My Projects
                 </Link>
               )}
               <div className="pt-4 pb-3 border-t border-gray-200">
                 {isAuthenticated ? (
                   <>
+                    <div className="px-3 py-2">
+                      <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
                     <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
                       <Button variant="ghost" className="w-full justify-start mb-2">
                         <User className="h-4 w-4 mr-2" />
-                        Dashboard
+                        My Projects
                       </Button>
                     </Link>
-                    <Button variant="ghost" className="w-full justify-start">
+                    <Button variant="ghost" className="w-full justify-start mb-2">
                       <Settings className="h-4 w-4 mr-2" />
-                      Settings
+                      Account Settings
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start text-red-600" onClick={handleLogout}>
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
                     </Button>
                   </>
                 ) : (

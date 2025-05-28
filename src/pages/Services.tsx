@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
@@ -7,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { 
   Code, 
   Globe, 
-  Cube, 
+  Box, 
   ArrowRight, 
   CheckCircle, 
   Star,
@@ -76,7 +75,7 @@ const Services = () => {
     },
     {
       id: '3d-brands',
-      icon: Cube,
+      icon: Box,
       title: "3D Brand Experiences",
       subtitle: "Immersive Digital Storytelling",
       description: "Cutting-edge 3D websites that create unforgettable brand experiences using WebGL technology and interactive elements.",

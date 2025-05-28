@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Code, Globe, Cube, CheckCircle, Clock, Shield } from 'lucide-react';
+import { ArrowRight, Code, Globe, Box, CheckCircle, Clock, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AnimatedCard from '../ui/animated-card';
 
@@ -43,7 +42,7 @@ const ServicesOverview = () => {
       gradient: "from-purple-500 to-pink-500"
     },
     {
-      icon: Cube,
+      icon: Box,
       title: "3D Brand Experiences",
       description: "Immersive 3D websites that showcase your brand with cutting-edge WebGL technology and interactive elements.",
       features: [

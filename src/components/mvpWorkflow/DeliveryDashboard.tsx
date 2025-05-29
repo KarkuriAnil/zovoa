@@ -26,7 +26,7 @@ const DeliveryDashboard: React.FC<DeliveryDashboardProps> = ({ state, dispatch }
             { label: 'Play Store (Android)', url: 'https://play.google.com/store/apps/...' }
           ],
           promotions: [
-            { type: 'appstore', title: 'Deploy to App Stores', price: 199, description: 'Submit to Apple App Store and Google Play Store' }
+            { type: 'appstore' as const, title: 'Deploy to App Stores', price: 199, description: 'Submit to Apple App Store and Google Play Store' }
           ]
         };
       case 'web':
@@ -36,7 +36,7 @@ const DeliveryDashboard: React.FC<DeliveryDashboardProps> = ({ state, dispatch }
             { label: 'Live Web App', url: `https://${state.idea.name.toLowerCase().replace(/\s+/g, '-')}.idealaunch.io` }
           ],
           promotions: [
-            { type: 'domain', title: 'Custom Domain', price: 15, description: 'Connect your own domain (per year)' }
+            { type: 'domain' as const, title: 'Custom Domain', price: 15, description: 'Connect your own domain (per year)' }
           ]
         };
       case 'desktop':
@@ -58,8 +58,8 @@ const DeliveryDashboard: React.FC<DeliveryDashboardProps> = ({ state, dispatch }
             { label: 'Desktop Downloads', url: '/downloads' }
           ],
           promotions: [
-            { type: 'appstore', title: 'Deploy to App Stores', price: 199, description: 'Submit to Apple App Store and Google Play Store' },
-            { type: 'domain', title: 'Custom Domain', price: 15, description: 'Connect your own domain (per year)' }
+            { type: 'appstore' as const, title: 'Deploy to App Stores', price: 199, description: 'Submit to Apple App Store and Google Play Store' },
+            { type: 'domain' as const, title: 'Custom Domain', price: 15, description: 'Connect your own domain (per year)' }
           ]
         };
     }

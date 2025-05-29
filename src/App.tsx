@@ -16,6 +16,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import MVP from "./pages/MVP";
 import Websites from "./pages/Websites";
+import WebsiteWorkflow from "./pages/WebsiteWorkflow";
 import ThreeDBrands from "./pages/3DBrands";
 import NotFound from "./pages/NotFound";
 
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/mvp" element={<MVP />} />
           <Route path="/websites" element={<Websites />} />
+          <Route path="/website-workflow" element={<WebsiteWorkflow />} />
           <Route path="/3d-brands" element={<ThreeDBrands />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

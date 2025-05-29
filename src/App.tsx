@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import MVP from "./pages/MVP";
+import MVPWorkflow from "./pages/MVPWorkflow";
 import Websites from "./pages/Websites";
 import WebsiteWorkflow from "./pages/WebsiteWorkflow";
 import ThreeDBrands from "./pages/3DBrands";

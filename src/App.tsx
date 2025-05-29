@@ -18,6 +18,7 @@ import MVP from "./pages/MVP";
 import Websites from "./pages/Websites";
 import WebsiteWorkflow from "./pages/WebsiteWorkflow";
 import ThreeDBrands from "./pages/3DBrands";
+import ThreeDWorkflow from "./pages/ThreeDWorkflow";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

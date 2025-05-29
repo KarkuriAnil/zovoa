@@ -42,6 +42,9 @@ const Navbar = () => {
             <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">
               Services
             </Link>
+            <Link to="/mvp-workflow" className="text-gray-700 hover:text-blue-600 transition-colors">
+              MVP Builder
+            </Link>
             <Link to="/templates" className="text-gray-700 hover:text-blue-600 transition-colors">
               Templates
             </Link>
@@ -132,6 +135,13 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Services
+              </Link>
+              <Link
+                to="/mvp-workflow"
+                className="block px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                MVP Builder
               </Link>
               <Link
                 to="/templates"

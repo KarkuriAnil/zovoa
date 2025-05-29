@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
@@ -6,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink, Star, Calendar, Users } from 'lucide-react';
+import { ArrowRight, ExternalLink, Star, Calendar, Users, Rocket } from 'lucide-react';
 
 const Portfolio = () => {
   const projects = [
@@ -145,6 +144,17 @@ const Portfolio = () => {
               Discover the amazing projects we've built for our clients. From MVPs to immersive 3D experiences, 
               see how we turn ideas into successful digital products.
             </p>
+            
+            {/* Quick Action Button */}
+            <div className="mb-8">
+              <Link to="/mvp-workflow">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold">
+                  <Rocket className="mr-2 h-5 w-5" />
+                  Start Building Your MVP
+                </Button>
+              </Link>
+            </div>
+
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
@@ -282,9 +292,15 @@ const Portfolio = () => {
               Join our portfolio of successful projects and let us help you transform your idea into reality.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/mvp-workflow">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
+                  Start Your MVP
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
               <Link to="/contact">
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
-                  Start Your Project
+                  Contact Us
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>

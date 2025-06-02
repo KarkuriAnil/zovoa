@@ -11,6 +11,8 @@ export interface MVPState {
   preview: {
     type: 'free' | 'interactive' | 'investor';
     accessToken?: string;
+    paymentStatus?: 'pending' | 'success' | 'failed';
+    paymentId?: string;
   };
   payments: {
     prototype: boolean;
@@ -58,6 +60,12 @@ export interface Comment {
   text: string;
   timestamp: string;
   attachments?: string[];
+}
+
+export interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id?: string;
+  razorpay_signature?: string;
 }
 
 export type MVPWorkflowAction =

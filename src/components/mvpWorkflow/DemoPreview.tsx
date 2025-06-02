@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MVPState, MVPWorkflowAction } from '@/types/mvpWorkflow';
+import { useToast } from '@/hooks/use-toast';
 
 interface DemoPreviewProps {
   state: MVPState;
@@ -41,18 +42,103 @@ const SAMPLE_FEATURES = [
   { id: '4', title: 'Push Notifications', description: 'Real-time user notifications', priority: 'low' as const }
 ];
 
+// Razorpay configuration
+const RAZORPAY_KEY_ID = 'rzp_test_1234567890'; // Replace with your actual Razorpay key
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 const DemoPreview: React.FC<DemoPreviewProps> = ({ state, dispatch }) => {
+  const { toast } = useToast();
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const initializeRazorpayPayment = async (amount: number, packageType: 'interactive' | 'investor') => {
+    const scriptLoaded = await loadRazorpayScript();
+    
+    if (!scriptLoaded) {
+      toast({
+        title: "Payment Error",
+        description: "Failed to load payment gateway. Please try again.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const options = {
+      key: RAZORPAY_KEY_ID,
+      amount: amount * 100, // Razorpay expects amount in paise
+      currency: 'USD',
+      name: 'IdeaLaunch',
+      description: `${packageType === 'interactive' ? 'Interactive Prototype' : 'Investor Package'}`,
+      image: '/favicon.ico',
+      handler: function (response: any) {
+        handlePaymentSuccess(response, packageType);
+      },
+      prefill: {
+        name: 'John Doe', // This should come from user context
+        email: 'john@example.com', // This should come from user context
+        contact: '+1234567890' // This should come from user context
+      },
+      theme: {
+        color: '#7C3AED'
+      },
+      modal: {
+        ondismiss: function() {
+          toast({
+            title: "Payment Cancelled",
+            description: "Payment was cancelled by user.",
+            variant: "destructive"
+          });
+        }
+      }
+    };
+
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  };
+
+  const handlePaymentSuccess = (response: any, packageType: 'interactive' | 'investor') => {
+    console.log('Payment successful:', response);
+    
+    // Update state with successful payment
+    dispatch({ type: 'SET_PREVIEW', payload: { 
+      type: packageType, 
+      accessToken: response.razorpay_payment_id 
+    }});
+    dispatch({ type: 'UPDATE_PAYMENTS', payload: { prototype: true } });
+    dispatch({ type: 'SET_STEP', payload: 'tracking' });
+
+    toast({
+      title: "Payment Successful!",
+      description: `Your ${packageType === 'interactive' ? 'Interactive Prototype' : 'Investor Package'} has been unlocked.`,
+    });
+  };
+
   const handlePayment = (packageType: 'free' | 'interactive' | 'investor') => {
     if (packageType === 'free') {
       dispatch({ type: 'SET_PREVIEW', payload: { type: packageType } });
       dispatch({ type: 'SET_STEP', payload: 'tracking' });
+      toast({
+        title: "Demo Unlocked",
+        description: "Your basic demo is now available.",
+      });
     } else {
-      // Here you would integrate with Stripe payment
-      console.log(`Processing payment for ${packageType} package`);
-      // For now, we'll simulate a successful payment
-      dispatch({ type: 'SET_PREVIEW', payload: { type: packageType, accessToken: 'demo-token' } });
-      dispatch({ type: 'UPDATE_PAYMENTS', payload: { prototype: true } });
-      dispatch({ type: 'SET_STEP', payload: 'tracking' });
+      const selectedPackage = PREVIEW_PACKAGES.find(pkg => pkg.type === packageType);
+      if (selectedPackage) {
+        initializeRazorpayPayment(selectedPackage.price, packageType);
+      }
     }
   };
 
@@ -66,16 +152,24 @@ const DemoPreview: React.FC<DemoPreviewProps> = ({ state, dispatch }) => {
           </CardHeader>
           <CardContent>
             <div className="relative bg-gray-100 rounded-lg h-64 flex items-center justify-center">
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-                <div className="text-white text-center">
-                  <div className="text-6xl mb-4">🔒</div>
-                  <p className="text-lg font-semibold">Preview Mode</p>
-                  <p className="text-sm">Unlock full access with payment</p>
+              {state.preview.accessToken ? (
+                <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center">
+                  <p className="text-white text-lg">🎉 Figma Prototype Unlocked!</p>
                 </div>
-              </div>
-              <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center">
-                <p className="text-white text-lg">Figma Prototype Embed</p>
-              </div>
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+                    <div className="text-white text-center">
+                      <div className="text-6xl mb-4">🔒</div>
+                      <p className="text-lg font-semibold">Preview Mode</p>
+                      <p className="text-sm">Unlock full access with payment</p>
+                    </div>
+                  </div>
+                  <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center">
+                    <p className="text-white text-lg">Figma Prototype Embed</p>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -164,8 +258,14 @@ const DemoPreview: React.FC<DemoPreviewProps> = ({ state, dispatch }) => {
                         ? 'bg-blue-600 hover:bg-blue-700'
                         : 'bg-gray-600 hover:bg-gray-700'
                     }`}
+                    disabled={state.preview.type === pkg.type && state.preview.accessToken}
                   >
-                    {pkg.price === 0 ? 'Get Basic Demo' : `Unlock for $${pkg.price}`}
+                    {state.preview.type === pkg.type && state.preview.accessToken 
+                      ? '✓ Purchased' 
+                      : pkg.price === 0 
+                        ? 'Get Basic Demo' 
+                        : `Pay $${pkg.price} with Razorpay`
+                    }
                   </Button>
                 </div>
               ))}

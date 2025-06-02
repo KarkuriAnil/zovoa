@@ -260,7 +260,7 @@ const DemoPreview: React.FC<DemoPreviewProps> = ({ state, dispatch }) => {
                         ? 'bg-blue-600 hover:bg-blue-700'
                         : 'bg-gray-600 hover:bg-gray-700'
                     }`}
-                    disabled={state.preview.type === pkg.type && state.preview.accessToken}
+                    disabled={state.preview.type === pkg.type && !!state.preview.accessToken}
                   >
                     {state.preview.type === pkg.type && state.preview.accessToken 
                       ? '✓ Purchased' 

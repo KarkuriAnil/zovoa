@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Rocket, Globe, Cube } from 'lucide-react';
+import { ArrowRight, Rocket, Globe, Box } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
@@ -36,7 +36,7 @@ const HeroSection = () => {
             </Link>
             <Link to="/3d-workflow">
               <Button size="lg" variant="outline" className="border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-8 py-4 text-lg font-semibold w-full sm:w-auto">
-                <Cube className="mr-2 h-5 w-5" />
+                <Box className="mr-2 h-5 w-5" />
                 3D Experience
               </Button>
             </Link>
@@ -60,7 +60,7 @@ const HeroSection = () => {
             </div>
             <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
               <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Cube className="h-8 w-8 text-purple-600" />
+                <Box className="h-8 w-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">3D Experiences</h3>
               <p className="text-gray-600">Immersive 3D websites that showcase your brand uniquely.</p>

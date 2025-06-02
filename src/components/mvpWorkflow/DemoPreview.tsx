@@ -115,7 +115,9 @@ const DemoPreview: React.FC<DemoPreviewProps> = ({ state, dispatch }) => {
     // Update state with successful payment
     dispatch({ type: 'SET_PREVIEW', payload: { 
       type: packageType, 
-      accessToken: response.razorpay_payment_id 
+      accessToken: response.razorpay_payment_id,
+      paymentStatus: 'success',
+      paymentId: response.razorpay_payment_id
     }});
     dispatch({ type: 'UPDATE_PAYMENTS', payload: { prototype: true } });
     dispatch({ type: 'SET_STEP', payload: 'tracking' });
